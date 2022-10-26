@@ -1,0 +1,389 @@
+\* Small_Sudoku_Problem *\
+Minimize
+ObjectiveMinimizePenalty: DUP_BOX_1_0 + DUP_BOX_1_1 + DUP_BOX_1_2
+ + DUP_BOX_1_3 + DUP_BOX_2_0 + DUP_BOX_2_1 + DUP_BOX_2_2 + DUP_BOX_2_3
+ + DUP_BOX_3_0 + DUP_BOX_3_1 + DUP_BOX_3_2 + DUP_BOX_3_3 + DUP_BOX_4_0
+ + DUP_BOX_4_1 + DUP_BOX_4_2 + DUP_BOX_4_3 + DUP_COL_1_1 + DUP_COL_1_2
+ + DUP_COL_1_3 + DUP_COL_1_4 + DUP_COL_2_1 + DUP_COL_2_2 + DUP_COL_2_3
+ + DUP_COL_2_4 + DUP_COL_3_1 + DUP_COL_3_2 + DUP_COL_3_3 + DUP_COL_3_4
+ + DUP_COL_4_1 + DUP_COL_4_2 + DUP_COL_4_3 + DUP_COL_4_4 + DUP_ROW_1_1
+ + DUP_ROW_1_2 + DUP_ROW_1_3 + DUP_ROW_1_4 + DUP_ROW_2_1 + DUP_ROW_2_2
+ + DUP_ROW_2_3 + DUP_ROW_2_4 + DUP_ROW_3_1 + DUP_ROW_3_2 + DUP_ROW_3_3
+ + DUP_ROW_3_4 + DUP_ROW_4_1 + DUP_ROW_4_2 + DUP_ROW_4_3 + DUP_ROW_4_4
+Subject To
+Initial_Values_Constraint_v:_1_r:_1_c:_1: Choice_1_1_1 = 1
+Initial_Values_Constraint_v:_2_r:_1_c:_2: Choice_2_1_2 = 1
+Initial_Values_Constraint_v:_3_r:_1_c:_3: Choice_3_1_3 = 1
+Initial_Values_Constraint_v:_3_r:_2_c:_1: Choice_3_2_1 = 1
+Initial_Values_Constraint_v:_4_r:_1_c:_4: Choice_4_1_4 = 1
+Initial_Values_Constraint_v:_4_r:_3_c:_1: Choice_4_3_1 = 1
+Single_Value_per_each_square_constraint_row:1_col:1: Choice_1_1_1
+ + Choice_2_1_1 + Choice_3_1_1 + Choice_4_1_1 = 1
+Single_Value_per_each_square_constraint_row:1_col:2: Choice_1_1_2
+ + Choice_2_1_2 + Choice_3_1_2 + Choice_4_1_2 = 1
+Single_Value_per_each_square_constraint_row:1_col:3: Choice_1_1_3
+ + Choice_2_1_3 + Choice_3_1_3 + Choice_4_1_3 = 1
+Single_Value_per_each_square_constraint_row:1_col:4: Choice_1_1_4
+ + Choice_2_1_4 + Choice_3_1_4 + Choice_4_1_4 = 1
+Single_Value_per_each_square_constraint_row:2_col:1: Choice_1_2_1
+ + Choice_2_2_1 + Choice_3_2_1 + Choice_4_2_1 = 1
+Single_Value_per_each_square_constraint_row:2_col:2: Choice_1_2_2
+ + Choice_2_2_2 + Choice_3_2_2 + Choice_4_2_2 = 1
+Single_Value_per_each_square_constraint_row:2_col:3: Choice_1_2_3
+ + Choice_2_2_3 + Choice_3_2_3 + Choice_4_2_3 = 1
+Single_Value_per_each_square_constraint_row:2_col:4: Choice_1_2_4
+ + Choice_2_2_4 + Choice_3_2_4 + Choice_4_2_4 = 1
+Single_Value_per_each_square_constraint_row:3_col:1: Choice_1_3_1
+ + Choice_2_3_1 + Choice_3_3_1 + Choice_4_3_1 = 1
+Single_Value_per_each_square_constraint_row:3_col:2: Choice_1_3_2
+ + Choice_2_3_2 + Choice_3_3_2 + Choice_4_3_2 = 1
+Single_Value_per_each_square_constraint_row:3_col:3: Choice_1_3_3
+ + Choice_2_3_3 + Choice_3_3_3 + Choice_4_3_3 = 1
+Single_Value_per_each_square_constraint_row:3_col:4: Choice_1_3_4
+ + Choice_2_3_4 + Choice_3_3_4 + Choice_4_3_4 = 1
+Single_Value_per_each_square_constraint_row:4_col:1: Choice_1_4_1
+ + Choice_2_4_1 + Choice_3_4_1 + Choice_4_4_1 = 1
+Single_Value_per_each_square_constraint_row:4_col:2: Choice_1_4_2
+ + Choice_2_4_2 + Choice_3_4_2 + Choice_4_4_2 = 1
+Single_Value_per_each_square_constraint_row:4_col:3: Choice_1_4_3
+ + Choice_2_4_3 + Choice_3_4_3 + Choice_4_4_3 = 1
+Single_Value_per_each_square_constraint_row:4_col:4: Choice_1_4_4
+ + Choice_2_4_4 + Choice_3_4_4 + Choice_4_4_4 = 1
+Value_in_Box_Constraint_value:1_box:_(1,_1),_(1,_2),_(2,_1),_(2,_2)_:
+ Choice_1_1_1 + Choice_1_1_2 + Choice_1_2_1 + Choice_1_2_2 - DUP_BOX_1_0
+ + SkipCHoice_1_1_1 + SkipCHoice_1_1_2 + SkipCHoice_1_2_1 + SkipCHoice_1_2_2
+ = 1
+Value_in_Box_Constraint_value:1_box:_(1,_3),_(1,_4),_(2,_3),_(2,_4)_:
+ Choice_1_1_3 + Choice_1_1_4 + Choice_1_2_3 + Choice_1_2_4 - DUP_BOX_1_1
+ + SkipCHoice_1_1_3 + SkipCHoice_1_1_4 + SkipCHoice_1_2_3 + SkipCHoice_1_2_4
+ = 1
+Value_in_Box_Constraint_value:1_box:_(3,_1),_(3,_2),_(4,_1),_(4,_2)_:
+ Choice_1_3_1 + Choice_1_3_2 + Choice_1_4_1 + Choice_1_4_2 - DUP_BOX_1_2
+ + SkipCHoice_1_3_1 + SkipCHoice_1_3_2 + SkipCHoice_1_4_1 + SkipCHoice_1_4_2
+ = 1
+Value_in_Box_Constraint_value:1_box:_(3,_3),_(3,_4),_(4,_3),_(4,_4)_:
+ Choice_1_3_3 + Choice_1_3_4 + Choice_1_4_3 + Choice_1_4_4 - DUP_BOX_1_3
+ + SkipCHoice_1_3_3 + SkipCHoice_1_3_4 + SkipCHoice_1_4_3 + SkipCHoice_1_4_4
+ = 1
+Value_in_Box_Constraint_value:2_box:_(1,_1),_(1,_2),_(2,_1),_(2,_2)_:
+ Choice_2_1_1 + Choice_2_1_2 + Choice_2_2_1 + Choice_2_2_2 - DUP_BOX_2_0
+ + SkipCHoice_2_1_1 + SkipCHoice_2_1_2 + SkipCHoice_2_2_1 + SkipCHoice_2_2_2
+ = 1
+Value_in_Box_Constraint_value:2_box:_(1,_3),_(1,_4),_(2,_3),_(2,_4)_:
+ Choice_2_1_3 + Choice_2_1_4 + Choice_2_2_3 + Choice_2_2_4 - DUP_BOX_2_1
+ + SkipCHoice_2_1_3 + SkipCHoice_2_1_4 + SkipCHoice_2_2_3 + SkipCHoice_2_2_4
+ = 1
+Value_in_Box_Constraint_value:2_box:_(3,_1),_(3,_2),_(4,_1),_(4,_2)_:
+ Choice_2_3_1 + Choice_2_3_2 + Choice_2_4_1 + Choice_2_4_2 - DUP_BOX_2_2
+ + SkipCHoice_2_3_1 + SkipCHoice_2_3_2 + SkipCHoice_2_4_1 + SkipCHoice_2_4_2
+ = 1
+Value_in_Box_Constraint_value:2_box:_(3,_3),_(3,_4),_(4,_3),_(4,_4)_:
+ Choice_2_3_3 + Choice_2_3_4 + Choice_2_4_3 + Choice_2_4_4 - DUP_BOX_2_3
+ + SkipCHoice_2_3_3 + SkipCHoice_2_3_4 + SkipCHoice_2_4_3 + SkipCHoice_2_4_4
+ = 1
+Value_in_Box_Constraint_value:3_box:_(1,_1),_(1,_2),_(2,_1),_(2,_2)_:
+ Choice_3_1_1 + Choice_3_1_2 + Choice_3_2_1 + Choice_3_2_2 - DUP_BOX_3_0
+ + SkipCHoice_3_1_1 + SkipCHoice_3_1_2 + SkipCHoice_3_2_1 + SkipCHoice_3_2_2
+ = 1
+Value_in_Box_Constraint_value:3_box:_(1,_3),_(1,_4),_(2,_3),_(2,_4)_:
+ Choice_3_1_3 + Choice_3_1_4 + Choice_3_2_3 + Choice_3_2_4 - DUP_BOX_3_1
+ + SkipCHoice_3_1_3 + SkipCHoice_3_1_4 + SkipCHoice_3_2_3 + SkipCHoice_3_2_4
+ = 1
+Value_in_Box_Constraint_value:3_box:_(3,_1),_(3,_2),_(4,_1),_(4,_2)_:
+ Choice_3_3_1 + Choice_3_3_2 + Choice_3_4_1 + Choice_3_4_2 - DUP_BOX_3_2
+ + SkipCHoice_3_3_1 + SkipCHoice_3_3_2 + SkipCHoice_3_4_1 + SkipCHoice_3_4_2
+ = 1
+Value_in_Box_Constraint_value:3_box:_(3,_3),_(3,_4),_(4,_3),_(4,_4)_:
+ Choice_3_3_3 + Choice_3_3_4 + Choice_3_4_3 + Choice_3_4_4 - DUP_BOX_3_3
+ + SkipCHoice_3_3_3 + SkipCHoice_3_3_4 + SkipCHoice_3_4_3 + SkipCHoice_3_4_4
+ = 1
+Value_in_Box_Constraint_value:4_box:_(1,_1),_(1,_2),_(2,_1),_(2,_2)_:
+ Choice_4_1_1 + Choice_4_1_2 + Choice_4_2_1 + Choice_4_2_2 - DUP_BOX_4_0
+ + SkipCHoice_4_1_1 + SkipCHoice_4_1_2 + SkipCHoice_4_2_1 + SkipCHoice_4_2_2
+ = 1
+Value_in_Box_Constraint_value:4_box:_(1,_3),_(1,_4),_(2,_3),_(2,_4)_:
+ Choice_4_1_3 + Choice_4_1_4 + Choice_4_2_3 + Choice_4_2_4 - DUP_BOX_4_1
+ + SkipCHoice_4_1_3 + SkipCHoice_4_1_4 + SkipCHoice_4_2_3 + SkipCHoice_4_2_4
+ = 1
+Value_in_Box_Constraint_value:4_box:_(3,_1),_(3,_2),_(4,_1),_(4,_2)_:
+ Choice_4_3_1 + Choice_4_3_2 + Choice_4_4_1 + Choice_4_4_2 - DUP_BOX_4_2
+ + SkipCHoice_4_3_1 + SkipCHoice_4_3_2 + SkipCHoice_4_4_1 + SkipCHoice_4_4_2
+ = 1
+Value_in_Box_Constraint_value:4_box:_(3,_3),_(3,_4),_(4,_3),_(4,_4)_:
+ Choice_4_3_3 + Choice_4_3_4 + Choice_4_4_3 + Choice_4_4_4 - DUP_BOX_4_3
+ + SkipCHoice_4_3_3 + SkipCHoice_4_3_4 + SkipCHoice_4_4_3 + SkipCHoice_4_4_4
+ = 1
+Value_in_Col_Constraint_value:1_col:1: Choice_1_1_1 + Choice_1_2_1
+ + Choice_1_3_1 + Choice_1_4_1 - DUP_COL_1_1 + SkipCHoice_1_1_1
+ + SkipCHoice_1_2_1 + SkipCHoice_1_3_1 + SkipCHoice_1_4_1 = 1
+Value_in_Col_Constraint_value:1_col:2: Choice_1_1_2 + Choice_1_2_2
+ + Choice_1_3_2 + Choice_1_4_2 - DUP_COL_1_2 + SkipCHoice_1_1_2
+ + SkipCHoice_1_2_2 + SkipCHoice_1_3_2 + SkipCHoice_1_4_2 = 1
+Value_in_Col_Constraint_value:1_col:3: Choice_1_1_3 + Choice_1_2_3
+ + Choice_1_3_3 + Choice_1_4_3 - DUP_COL_1_3 + SkipCHoice_1_1_3
+ + SkipCHoice_1_2_3 + SkipCHoice_1_3_3 + SkipCHoice_1_4_3 = 1
+Value_in_Col_Constraint_value:1_col:4: Choice_1_1_4 + Choice_1_2_4
+ + Choice_1_3_4 + Choice_1_4_4 - DUP_COL_1_4 + SkipCHoice_1_1_4
+ + SkipCHoice_1_2_4 + SkipCHoice_1_3_4 + SkipCHoice_1_4_4 = 1
+Value_in_Col_Constraint_value:2_col:1: Choice_2_1_1 + Choice_2_2_1
+ + Choice_2_3_1 + Choice_2_4_1 - DUP_COL_2_1 + SkipCHoice_2_1_1
+ + SkipCHoice_2_2_1 + SkipCHoice_2_3_1 + SkipCHoice_2_4_1 = 1
+Value_in_Col_Constraint_value:2_col:2: Choice_2_1_2 + Choice_2_2_2
+ + Choice_2_3_2 + Choice_2_4_2 - DUP_COL_2_2 + SkipCHoice_2_1_2
+ + SkipCHoice_2_2_2 + SkipCHoice_2_3_2 + SkipCHoice_2_4_2 = 1
+Value_in_Col_Constraint_value:2_col:3: Choice_2_1_3 + Choice_2_2_3
+ + Choice_2_3_3 + Choice_2_4_3 - DUP_COL_2_3 + SkipCHoice_2_1_3
+ + SkipCHoice_2_2_3 + SkipCHoice_2_3_3 + SkipCHoice_2_4_3 = 1
+Value_in_Col_Constraint_value:2_col:4: Choice_2_1_4 + Choice_2_2_4
+ + Choice_2_3_4 + Choice_2_4_4 - DUP_COL_2_4 + SkipCHoice_2_1_4
+ + SkipCHoice_2_2_4 + SkipCHoice_2_3_4 + SkipCHoice_2_4_4 = 1
+Value_in_Col_Constraint_value:3_col:1: Choice_3_1_1 + Choice_3_2_1
+ + Choice_3_3_1 + Choice_3_4_1 - DUP_COL_3_1 + SkipCHoice_3_1_1
+ + SkipCHoice_3_2_1 + SkipCHoice_3_3_1 + SkipCHoice_3_4_1 = 1
+Value_in_Col_Constraint_value:3_col:2: Choice_3_1_2 + Choice_3_2_2
+ + Choice_3_3_2 + Choice_3_4_2 - DUP_COL_3_2 + SkipCHoice_3_1_2
+ + SkipCHoice_3_2_2 + SkipCHoice_3_3_2 + SkipCHoice_3_4_2 = 1
+Value_in_Col_Constraint_value:3_col:3: Choice_3_1_3 + Choice_3_2_3
+ + Choice_3_3_3 + Choice_3_4_3 - DUP_COL_3_3 + SkipCHoice_3_1_3
+ + SkipCHoice_3_2_3 + SkipCHoice_3_3_3 + SkipCHoice_3_4_3 = 1
+Value_in_Col_Constraint_value:3_col:4: Choice_3_1_4 + Choice_3_2_4
+ + Choice_3_3_4 + Choice_3_4_4 - DUP_COL_3_4 + SkipCHoice_3_1_4
+ + SkipCHoice_3_2_4 + SkipCHoice_3_3_4 + SkipCHoice_3_4_4 = 1
+Value_in_Col_Constraint_value:4_col:1: Choice_4_1_1 + Choice_4_2_1
+ + Choice_4_3_1 + Choice_4_4_1 - DUP_COL_4_1 + SkipCHoice_4_1_1
+ + SkipCHoice_4_2_1 + SkipCHoice_4_3_1 + SkipCHoice_4_4_1 = 1
+Value_in_Col_Constraint_value:4_col:2: Choice_4_1_2 + Choice_4_2_2
+ + Choice_4_3_2 + Choice_4_4_2 - DUP_COL_4_2 + SkipCHoice_4_1_2
+ + SkipCHoice_4_2_2 + SkipCHoice_4_3_2 + SkipCHoice_4_4_2 = 1
+Value_in_Col_Constraint_value:4_col:3: Choice_4_1_3 + Choice_4_2_3
+ + Choice_4_3_3 + Choice_4_4_3 - DUP_COL_4_3 + SkipCHoice_4_1_3
+ + SkipCHoice_4_2_3 + SkipCHoice_4_3_3 + SkipCHoice_4_4_3 = 1
+Value_in_Col_Constraint_value:4_col:4: Choice_4_1_4 + Choice_4_2_4
+ + Choice_4_3_4 + Choice_4_4_4 - DUP_COL_4_4 + SkipCHoice_4_1_4
+ + SkipCHoice_4_2_4 + SkipCHoice_4_3_4 + SkipCHoice_4_4_4 = 1
+Value_in_Row_Constraint_value:1_row:1: Choice_1_1_1 + Choice_1_1_2
+ + Choice_1_1_3 + Choice_1_1_4 - DUP_ROW_1_1 + SkipCHoice_1_1_1
+ + SkipCHoice_1_1_2 + SkipCHoice_1_1_3 + SkipCHoice_1_1_4 = 1
+Value_in_Row_Constraint_value:1_row:2: Choice_1_2_1 + Choice_1_2_2
+ + Choice_1_2_3 + Choice_1_2_4 - DUP_ROW_1_2 + SkipCHoice_1_2_1
+ + SkipCHoice_1_2_2 + SkipCHoice_1_2_3 + SkipCHoice_1_2_4 = 1
+Value_in_Row_Constraint_value:1_row:3: Choice_1_3_1 + Choice_1_3_2
+ + Choice_1_3_3 + Choice_1_3_4 - DUP_ROW_1_3 + SkipCHoice_1_3_1
+ + SkipCHoice_1_3_2 + SkipCHoice_1_3_3 + SkipCHoice_1_3_4 = 1
+Value_in_Row_Constraint_value:1_row:4: Choice_1_4_1 + Choice_1_4_2
+ + Choice_1_4_3 + Choice_1_4_4 - DUP_ROW_1_4 + SkipCHoice_1_4_1
+ + SkipCHoice_1_4_2 + SkipCHoice_1_4_3 + SkipCHoice_1_4_4 = 1
+Value_in_Row_Constraint_value:2_row:1: Choice_2_1_1 + Choice_2_1_2
+ + Choice_2_1_3 + Choice_2_1_4 - DUP_ROW_2_1 + SkipCHoice_2_1_1
+ + SkipCHoice_2_1_2 + SkipCHoice_2_1_3 + SkipCHoice_2_1_4 = 1
+Value_in_Row_Constraint_value:2_row:2: Choice_2_2_1 + Choice_2_2_2
+ + Choice_2_2_3 + Choice_2_2_4 - DUP_ROW_2_2 + SkipCHoice_2_2_1
+ + SkipCHoice_2_2_2 + SkipCHoice_2_2_3 + SkipCHoice_2_2_4 = 1
+Value_in_Row_Constraint_value:2_row:3: Choice_2_3_1 + Choice_2_3_2
+ + Choice_2_3_3 + Choice_2_3_4 - DUP_ROW_2_3 + SkipCHoice_2_3_1
+ + SkipCHoice_2_3_2 + SkipCHoice_2_3_3 + SkipCHoice_2_3_4 = 1
+Value_in_Row_Constraint_value:2_row:4: Choice_2_4_1 + Choice_2_4_2
+ + Choice_2_4_3 + Choice_2_4_4 - DUP_ROW_2_4 + SkipCHoice_2_4_1
+ + SkipCHoice_2_4_2 + SkipCHoice_2_4_3 + SkipCHoice_2_4_4 = 1
+Value_in_Row_Constraint_value:3_row:1: Choice_3_1_1 + Choice_3_1_2
+ + Choice_3_1_3 + Choice_3_1_4 - DUP_ROW_3_1 + SkipCHoice_3_1_1
+ + SkipCHoice_3_1_2 + SkipCHoice_3_1_3 + SkipCHoice_3_1_4 = 1
+Value_in_Row_Constraint_value:3_row:2: Choice_3_2_1 + Choice_3_2_2
+ + Choice_3_2_3 + Choice_3_2_4 - DUP_ROW_3_2 + SkipCHoice_3_2_1
+ + SkipCHoice_3_2_2 + SkipCHoice_3_2_3 + SkipCHoice_3_2_4 = 1
+Value_in_Row_Constraint_value:3_row:3: Choice_3_3_1 + Choice_3_3_2
+ + Choice_3_3_3 + Choice_3_3_4 - DUP_ROW_3_3 + SkipCHoice_3_3_1
+ + SkipCHoice_3_3_2 + SkipCHoice_3_3_3 + SkipCHoice_3_3_4 = 1
+Value_in_Row_Constraint_value:3_row:4: Choice_3_4_1 + Choice_3_4_2
+ + Choice_3_4_3 + Choice_3_4_4 - DUP_ROW_3_4 + SkipCHoice_3_4_1
+ + SkipCHoice_3_4_2 + SkipCHoice_3_4_3 + SkipCHoice_3_4_4 = 1
+Value_in_Row_Constraint_value:4_row:1: Choice_4_1_1 + Choice_4_1_2
+ + Choice_4_1_3 + Choice_4_1_4 - DUP_ROW_4_1 + SkipCHoice_4_1_1
+ + SkipCHoice_4_1_2 + SkipCHoice_4_1_3 + SkipCHoice_4_1_4 = 1
+Value_in_Row_Constraint_value:4_row:2: Choice_4_2_1 + Choice_4_2_2
+ + Choice_4_2_3 + Choice_4_2_4 - DUP_ROW_4_2 + SkipCHoice_4_2_1
+ + SkipCHoice_4_2_2 + SkipCHoice_4_2_3 + SkipCHoice_4_2_4 = 1
+Value_in_Row_Constraint_value:4_row:3: Choice_4_3_1 + Choice_4_3_2
+ + Choice_4_3_3 + Choice_4_3_4 - DUP_ROW_4_3 + SkipCHoice_4_3_1
+ + SkipCHoice_4_3_2 + SkipCHoice_4_3_3 + SkipCHoice_4_3_4 = 1
+Value_in_Row_Constraint_value:4_row:4: Choice_4_4_1 + Choice_4_4_2
+ + Choice_4_4_3 + Choice_4_4_4 - DUP_ROW_4_4 + SkipCHoice_4_4_1
+ + SkipCHoice_4_4_2 + SkipCHoice_4_4_3 + SkipCHoice_4_4_4 = 1
+Binaries
+Choice_1_1_1
+Choice_1_1_2
+Choice_1_1_3
+Choice_1_1_4
+Choice_1_2_1
+Choice_1_2_2
+Choice_1_2_3
+Choice_1_2_4
+Choice_1_3_1
+Choice_1_3_2
+Choice_1_3_3
+Choice_1_3_4
+Choice_1_4_1
+Choice_1_4_2
+Choice_1_4_3
+Choice_1_4_4
+Choice_2_1_1
+Choice_2_1_2
+Choice_2_1_3
+Choice_2_1_4
+Choice_2_2_1
+Choice_2_2_2
+Choice_2_2_3
+Choice_2_2_4
+Choice_2_3_1
+Choice_2_3_2
+Choice_2_3_3
+Choice_2_3_4
+Choice_2_4_1
+Choice_2_4_2
+Choice_2_4_3
+Choice_2_4_4
+Choice_3_1_1
+Choice_3_1_2
+Choice_3_1_3
+Choice_3_1_4
+Choice_3_2_1
+Choice_3_2_2
+Choice_3_2_3
+Choice_3_2_4
+Choice_3_3_1
+Choice_3_3_2
+Choice_3_3_3
+Choice_3_3_4
+Choice_3_4_1
+Choice_3_4_2
+Choice_3_4_3
+Choice_3_4_4
+Choice_4_1_1
+Choice_4_1_2
+Choice_4_1_3
+Choice_4_1_4
+Choice_4_2_1
+Choice_4_2_2
+Choice_4_2_3
+Choice_4_2_4
+Choice_4_3_1
+Choice_4_3_2
+Choice_4_3_3
+Choice_4_3_4
+Choice_4_4_1
+Choice_4_4_2
+Choice_4_4_3
+Choice_4_4_4
+DUP_BOX_1_0
+DUP_BOX_1_1
+DUP_BOX_1_2
+DUP_BOX_1_3
+DUP_BOX_2_0
+DUP_BOX_2_1
+DUP_BOX_2_2
+DUP_BOX_2_3
+DUP_BOX_3_0
+DUP_BOX_3_1
+DUP_BOX_3_2
+DUP_BOX_3_3
+DUP_BOX_4_0
+DUP_BOX_4_1
+DUP_BOX_4_2
+DUP_BOX_4_3
+DUP_COL_1_1
+DUP_COL_1_2
+DUP_COL_1_3
+DUP_COL_1_4
+DUP_COL_2_1
+DUP_COL_2_2
+DUP_COL_2_3
+DUP_COL_2_4
+DUP_COL_3_1
+DUP_COL_3_2
+DUP_COL_3_3
+DUP_COL_3_4
+DUP_COL_4_1
+DUP_COL_4_2
+DUP_COL_4_3
+DUP_COL_4_4
+DUP_ROW_1_1
+DUP_ROW_1_2
+DUP_ROW_1_3
+DUP_ROW_1_4
+DUP_ROW_2_1
+DUP_ROW_2_2
+DUP_ROW_2_3
+DUP_ROW_2_4
+DUP_ROW_3_1
+DUP_ROW_3_2
+DUP_ROW_3_3
+DUP_ROW_3_4
+DUP_ROW_4_1
+DUP_ROW_4_2
+DUP_ROW_4_3
+DUP_ROW_4_4
+SkipCHoice_1_1_1
+SkipCHoice_1_1_2
+SkipCHoice_1_1_3
+SkipCHoice_1_1_4
+SkipCHoice_1_2_1
+SkipCHoice_1_2_2
+SkipCHoice_1_2_3
+SkipCHoice_1_2_4
+SkipCHoice_1_3_1
+SkipCHoice_1_3_2
+SkipCHoice_1_3_3
+SkipCHoice_1_3_4
+SkipCHoice_1_4_1
+SkipCHoice_1_4_2
+SkipCHoice_1_4_3
+SkipCHoice_1_4_4
+SkipCHoice_2_1_1
+SkipCHoice_2_1_2
+SkipCHoice_2_1_3
+SkipCHoice_2_1_4
+SkipCHoice_2_2_1
+SkipCHoice_2_2_2
+SkipCHoice_2_2_3
+SkipCHoice_2_2_4
+SkipCHoice_2_3_1
+SkipCHoice_2_3_2
+SkipCHoice_2_3_3
+SkipCHoice_2_3_4
+SkipCHoice_2_4_1
+SkipCHoice_2_4_2
+SkipCHoice_2_4_3
+SkipCHoice_2_4_4
+SkipCHoice_3_1_1
+SkipCHoice_3_1_2
+SkipCHoice_3_1_3
+SkipCHoice_3_1_4
+SkipCHoice_3_2_1
+SkipCHoice_3_2_2
+SkipCHoice_3_2_3
+SkipCHoice_3_2_4
+SkipCHoice_3_3_1
+SkipCHoice_3_3_2
+SkipCHoice_3_3_3
+SkipCHoice_3_3_4
+SkipCHoice_3_4_1
+SkipCHoice_3_4_2
+SkipCHoice_3_4_3
+SkipCHoice_3_4_4
+SkipCHoice_4_1_1
+SkipCHoice_4_1_2
+SkipCHoice_4_1_3
+SkipCHoice_4_1_4
+SkipCHoice_4_2_1
+SkipCHoice_4_2_2
+SkipCHoice_4_2_3
+SkipCHoice_4_2_4
+SkipCHoice_4_3_1
+SkipCHoice_4_3_2
+SkipCHoice_4_3_3
+SkipCHoice_4_3_4
+SkipCHoice_4_4_1
+SkipCHoice_4_4_2
+SkipCHoice_4_4_3
+SkipCHoice_4_4_4
+End
