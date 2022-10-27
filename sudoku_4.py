@@ -7,16 +7,18 @@ from pulp import *
 
 VALS = ROWS = COLS = range(1, 5)
 BOX_NUMS = range(0,4)
-#prob = LpProblem("Small_Sudoku_Problem")
-prob = LpProblem("Small_Sudoku_Problem", LpMinimize)
+prob = LpProblem("Small_Sudoku_Problem")
+
+#REDEFINE PROBLEM TO MINIMIZE GIVEN SOFT CONSTRAINTS / PENALTIES
+#prob = LpProblem("Small_Sudoku_Problem", LpMinimize)
 
 
 # STRUCTURE IS (VALUE, ROW, COLUMN)
 choices = LpVariable.dicts("Choice", (VALS, ROWS, COLS), cat="Binary")
-duplicate_in_row = LpVariable.dicts("DUP_ROW",(VALS, ROWS), cat="Binary")
-duplicate_in_col = LpVariable.dicts("DUP_COL",(VALS, COLS), cat="Binary")
-duplicate_in_box = LpVariable.dicts("DUP_BOX",(VALS, BOX_NUMS), cat="Binary")
-skip_choice = LpVariable.dicts("SkipCHoice", (VALS, ROWS, COLS), cat="Binary")
+# duplicate_in_row = LpVariable.dicts("DUP_ROW",(VALS, ROWS), cat="Binary")
+# duplicate_in_col = LpVariable.dicts("DUP_COL",(VALS, COLS), cat="Binary")
+# duplicate_in_box = LpVariable.dicts("DUP_BOX",(VALS, BOX_NUMS), cat="Binary")
+# skip_choice = LpVariable.dicts("SkipCHoice", (VALS, ROWS, COLS), cat="Binary")
 
 Boxes = [
     [(2 * i + k + 1, 2 * j + l + 1) for k in range(2) for l in range(2)]
@@ -25,9 +27,9 @@ Boxes = [
 ]
 
 #Objective minimize the number of the slack variables that get set to 1
-prob+=lpSum(duplicate_in_row[v][r] for r in ROWS for v in VALS) + \
-      lpSum(duplicate_in_col[v][c] for c in COLS for v in VALS) + \
-      lpSum(duplicate_in_box[v][b] for b in BOX_NUMS for v in VALS), "ObjectiveMinimizePenalty"
+# prob+=lpSum(duplicate_in_row[v][r] for r in ROWS for v in VALS) + \
+#       lpSum(duplicate_in_col[v][c] for c in COLS for v in VALS) + \
+#       lpSum(duplicate_in_box[v][b] for b in BOX_NUMS for v in VALS), "ObjectiveMinimizePenalty"
 
 #Only one val can be created for each square
 for r in ROWS:
@@ -36,16 +38,25 @@ for r in ROWS:
 
 for v in VALS:
     for r in ROWS:
-        #Each value should occur only once in a row
-        try:
-            prob += lpSum([choices[v][r][c] + skip_choice[v][r][c] for c in COLS]) == 1 + duplicate_in_row[v][r], f"Value in Row Constraint value:{v} row:{r}"
-        except KeyError:
-            x = 'dog'
+        #HARD CONSTRAINT Comment out when running with soft constraint
+        #Each value choice should occur only once in a row
+        prob += lpSum([choices[v][r][c] for c in COLS]) == 1, f"Value in Row Constraint value:{v} row:{r}"
+        #SOFT CONSTRAINT USING SLACK VARIABLES
+        #prob += lpSum([choices[v][r][c] + skip_choice[v][r][c] for c in COLS]) == 1 + duplicate_in_row[v][r], f"Value in Row Constraint value:{v} row:{r}"
+
     for c in COLS:
-        prob += lpSum([choices[v][r][c] + skip_choice[v][r][c] for r in ROWS]) == 1 + duplicate_in_col[v][c], f"Value in Col Constraint value:{v} col:{c}"
+        #HARD CONSTRAINT Comment out when running with soft constraint
+        #Each value choice should only occur once in a column
+        prob += lpSum([choices[v][r][c]for r in ROWS]) == 1, f"Value in Col Constraint value:{v} col:{c}"
+        #SOFT CONSTRAINT USING SLACK VARIABLES
+        #prob += lpSum([choices[v][r][c] + skip_choice[v][r][c] for r in ROWS]) == 1 + duplicate_in_col[v][c], f"Value in Col Constraint value:{v} col:{c}"
 
     for idx,b in enumerate(Boxes):
-        prob += lpSum([choices[v][r][c] + skip_choice[v][r][c] for (r, c) in b]) == 1 + duplicate_in_box[v][idx], f"Value in Box Constraint value:{v} box:{b}"
+        #HARD CONSTRAINT Comment out when running with soft constraint
+        #Each value choice should only occur once in a box
+        prob += lpSum([choices[v][r][c] for (r, c) in b]) == 1, f"Value in Box Constraint value:{v} box:{b}"
+        #SOFT CONSTRAINT USING SLACK VARIABLES/Penalties
+        #prob += lpSum([choices[v][r][c] + skip_choice[v][r][c] for (r, c) in b]) == 1 + duplicate_in_box[v][idx], f"Value in Box Constraint value:{v} box:{b}"
 
 print(Boxes)
 
@@ -88,7 +99,7 @@ for r in ROWS:
 sudokuout.write("+-----+-----+")
 sudokuout.close()
 
-prob.writeLP("test")
+prob.writeLP("sudoku_4.lp")
 prob.solve()
 
 loop_count = 1
@@ -118,6 +129,7 @@ while True:
         sudoku_solution_file.close()
 
         # The constraint is added that the same solution cannot be returned again
+        # The value of the sum of choices can have 15 of the same choices set but not 16(which would be a same solution)
         prob += (
                 lpSum(
                     [
