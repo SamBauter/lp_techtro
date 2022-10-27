@@ -1,0 +1,6 @@
+notebook
+pulp
+numpy
+matplotlib
+sympy
+
