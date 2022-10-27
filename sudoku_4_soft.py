@@ -1,17 +1,16 @@
 from pulp import *
-# Within any of the 4 individual 2x2 boxes, each of the numbers 1 to 4 must be found.
-#
-# Within any column of the 4x4 grid, each of the numbers 1 to 4 must be found.
-#
-# Within any row of the 4x4 grid, each of the numbers 1 to 4 must be found.
 
 VALS = ROWS = COLS = range(1, 5)
 BOX_NUMS = range(0,4)
-prob = LpProblem("Small_Sudoku_Problem")
 
+prob = LpProblem("Small_Sudoku_Problem", LpMinimize)
 
 # STRUCTURE IS (VALUE, ROW, COLUMN)
 choices = LpVariable.dicts("Choice", (VALS, ROWS, COLS), cat="Binary")
+duplicate_in_row = LpVariable.dicts("DUP_ROW",(VALS, ROWS), cat="Binary")
+duplicate_in_col = LpVariable.dicts("DUP_COL",(VALS, COLS), cat="Binary")
+duplicate_in_box = LpVariable.dicts("DUP_BOX",(VALS, BOX_NUMS), cat="Binary")
+skip_choice = LpVariable.dicts("SkipChoice", (VALS, ROWS, COLS), cat="Binary")
 
 Boxes = [
     [(2 * i + k + 1, 2 * j + l + 1) for k in range(2) for l in range(2)]
@@ -19,7 +18,10 @@ Boxes = [
     for j in range(2)
 ]
 
-#NO OBJECTIVE FUNCTION NEEDED
+#Objective minimize the number of the slack variables that get set to 1
+prob+=lpSum(duplicate_in_row[v][r] for r in ROWS for v in VALS) + \
+      lpSum(duplicate_in_col[v][c] for c in COLS for v in VALS) + \
+      lpSum(duplicate_in_box[v][b] for b in BOX_NUMS for v in VALS), "ObjectiveMinimizePenalty"
 
 #Only one val can be created for each square
 for r in ROWS:
@@ -28,22 +30,18 @@ for r in ROWS:
 
 for v in VALS:
     for r in ROWS:
-        #HARD CONSTRAINT Comment out when running with soft constraint
-        #Each value choice should occur only once in a row
-        prob += lpSum([choices[v][r][c] for c in COLS]) == 1, f"Value in Row Constraint value:{v} row:{r}"
+        #SOFT CONSTRAINT USING SLACK VARIABLES
+        prob += lpSum([choices[v][r][c] + skip_choice[v][r][c] for c in COLS]) == 1 + duplicate_in_row[v][r], f"Value in Row Constraint value:{v} row:{r}"
 
     for c in COLS:
-        #HARD CONSTRAINT Comment out when running with soft constraint
-        #Each value choice should only occur once in a column
-        prob += lpSum([choices[v][r][c]for r in ROWS]) == 1, f"Value in Col Constraint value:{v} col:{c}"
+        #SOFT CONSTRAINT USING SLACK VARIABLES
+        prob += lpSum([choices[v][r][c] + skip_choice[v][r][c] for r in ROWS]) == 1 + duplicate_in_col[v][c], f"Value in Col Constraint value:{v} col:{c}"
 
     for idx,b in enumerate(Boxes):
-        #HARD CONSTRAINT Comment out when running with soft constraint
-        #Each value choice should only occur once in a box
-        prob += lpSum([choices[v][r][c] for (r, c) in b]) == 1, f"Value in Box Constraint value:{v} box:{b}"
+        #SOFT CONSTRAINT USING SLACK VARIABLES/Penalties
+        prob += lpSum([choices[v][r][c] + skip_choice[v][r][c] for (r, c) in b]) == 1 + duplicate_in_box[v][idx], f"Value in Box Constraint value:{v} box:{b}"
 
-
-#print(Boxes)
+print(Boxes)
 
 # Structure is Value, Row, Column
 input_data = [
@@ -61,7 +59,7 @@ for (v, r, c) in input_data:
 
 
 #Show the initial State
-sudokuout = open("sudokuout_init.txt", "w")
+sudokuout = open("sudoku_init_soft.txt", "w")
 
 for r in ROWS:
     if r in [1, 3]:
@@ -73,9 +71,9 @@ for r in ROWS:
             sudokuout.write(" |")
         written = False
         for v in VALS:
-                if (v,r,c) in input_data:
-                    sudokuout.write(" "+str(v))
-                    written = True
+            if (v,r,c) in input_data:
+                sudokuout.write(" "+str(v))
+                written = True
         if not written:
             sudokuout.write("  ")
         if c == 4:
@@ -84,14 +82,14 @@ for r in ROWS:
 sudokuout.write("+-----+-----+")
 sudokuout.close()
 
-prob.writeLP("sudoku_4.lp")
+prob.writeLP("sudoku_4_soft.lp")
 prob.solve()
 
 loop_count = 1
 while True:
     if loop_count >=11:
         break
-    filename = f"sudoku_solution_{loop_count}.txt"
+    filename = f"sudoku_solution_soft{loop_count}.txt"
     sudoku_solution_file = open(filename, "w")
     prob.solve()
     # The status of the solution is printed to the screen
@@ -132,4 +130,5 @@ while True:
     else:
         sudoku_solution_file.write("No further Feasible Solutions")
         break
+
 
